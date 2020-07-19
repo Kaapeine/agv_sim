@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<!-- Arguments to use in this launch file -->
+	<arg name="paused" default="false"/>
+	<arg name="gui" default="true"/>
+	<arg name="headless" default="false"/>
+	<arg name="debug" default="false"/>
+
+	<arg name="model" default="$(find agv_sim)/urdf/agv_v1.xacro" />
+
+	<!-- Parameters to use in this launch file -->
+
+	<param name="robot_description" command="xacro --inorder '$(arg model)'" />
+  <param name="/use_sim_time" value="true"/>
+
+    <!-- State Publishers -->
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Spawn model and launch Gazebo -->
+
+    <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+          args="-param robot_description -urdf -model agv" />
+    
+    <node name="gazebo" pkg="gazebo_ros" type="gazebo" args="$(find agv_sim)/worlds/creech.world" />
+
+</launch>

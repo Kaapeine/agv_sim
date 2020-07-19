@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<!-- Arguments to use in this launch file -->
+
+	<arg name="rvizconfig" default="$(find agv_sim)/rviz/default.rviz"/>
+	<arg name="model" default="$(find agv_sim)/urdf/agv_v1.xacro" />
+
+	<!-- Parameters to use in this launch file -->
+
+	<param name="robot_description" command="xacro --inorder '$(arg model)'" />
+  	<param name="/use_sim_time" value="true"/>
+
+	<!-- State Publishers -->
+
+	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  	<!-- Launch Rviz -->
+
+  	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)"/>
+
+</launch>
